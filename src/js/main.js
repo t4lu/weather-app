@@ -1,10 +1,9 @@
-import { getWeather } from "./api/weatherApi.js";
-import { renderWeather } from "./ui/render.js";
+import { GEO_URL, WEATHER_URL } from "./config.js";
 
 async function getWeatherByCity(city) {
     try {
         const geoResponse = await fetch(
-            `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`
+            `${GEO_URL}?name=${city}&count=1`
         );
         const geoData = await geoResponse.json();
 
@@ -15,7 +14,7 @@ async function getWeatherByCity(city) {
         const { latitude, longitude, name, country } = geoData.results[0];
 
         const weatherResponse = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
+            `${WEATHER_URL}?latitude=${latitude}&longitude=${longitude}&current_weather=true`
         );
         const weatherData = await weatherResponse.json();
 
@@ -29,9 +28,3 @@ async function getWeatherByCity(city) {
 }
 
 getWeatherByCity("São Paulo");
-
-/*
-async function handleSearch(city) {
-    const data = await getWeather(city);
-    renderWeather(data);
-}*/
